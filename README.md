@@ -4,7 +4,9 @@ Use this Action to install `pscale` on your actions runner. Works with Linux, Ma
 
 ```yaml
 - name: Setup pscale
-  uses: planetscale/setup-pscale-action@v1
+  uses: willgeorgetaylor/setup-pscale-action@v1
+  with:
+    github-token: ${{ secrets.GITHUB_TOKEN }}
 - name: Use pscale
   env:
     PLANETSCALE_SERVICE_TOKEN_ID: ${{ secrets.PLANETSCALE_SERVICE_TOKEN_ID }}
@@ -21,8 +23,9 @@ Setting the `version` is optional. When omitted, the action will download the la
 
 ```yaml
 - name: Setup pscale
-  uses: planetscale/setup-pscale-action@v1
+  uses: willgeorgetaylor/setup-pscale-action@v1
   with:
+    github-token: ${{ secrets.GITHUB_TOKEN }}
     version: v0.183.0
 ```
 

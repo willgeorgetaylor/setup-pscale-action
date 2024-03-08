@@ -14,7 +14,9 @@ Having access to pscale within actions will allow you to script workflows. Use t
 
 ```yaml
 - name: Setup pscale
-  uses: planetscale/setup-pscale-action@v1
+  uses: willgeorgetaylor/setup-pscale-action@v1
+  with:
+    github-token: ${{ secrets.GITHUB_TOKEN }}
 ```
 
 This action works for Linux, Windows & Mac. It will also place `pscale` into your tool cache to keep subsequent runs fast.
@@ -193,7 +195,7 @@ jobs:
           echo "database: ${{ secrets.PLANETSCALE_DATABASE_NAME }}" >> .pscale.yml
           echo "branch: ${{ env.PSCALE_BRANCH_NAME }}" >> .pscale.yml
       - name: Setup pscale
-        uses: planetscale/setup-pscale-action@v1
+        uses: willgeorgetaylor/setup-pscale-action@v1
       - name: Run migrations
         run: |
           bundle exec rails psdb:migrate > migration-output.txt
@@ -270,7 +272,9 @@ jobs:
       - name: checkout
         uses: actions/checkout@v3
       - name: Setup pscale
-        uses: planetscale/setup-pscale-action@v1
+        uses: willgeorgetaylor/setup-pscale-action@v1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Set branch name
         run:  echo "PSCALE_BRANCH_NAME=$(echo ${{ github.head_ref }} | tr -cd '[:alnum:]-'| tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
       - name: Get Deploy Requests

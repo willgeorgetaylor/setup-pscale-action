@@ -1,14 +1,17 @@
-name: 'Setup pscale'
-description: 'Installs the PlanetScale CLI'
-author: 'PlanetScale'
+name: "Setup pscale"
+description: "Installs the PlanetScale CLI (pscale) for use in GitHub Actions."
+author: "willgeorgetaylor"
 branding:
-  icon: 'database'
-  color: 'gray-dark'
+  icon: "database"
+  color: "blue"
 inputs:
-  version: 
-    description: 'Version of pscale to install. i.e. v0.106.0. Defaults to latest version.'
+  github-token:
+    description: "GitHub token to use for downloading the pscale binary."
+    required: true
+  version:
+    description: "Version of pscale to install. i.e. v0.106.0. Defaults to latest version."
     required: false
-    default: 'latest'
+    default: "latest"
 runs:
-  using: 'node16'
-  main: 'dist/index.js'
+  using: "node20"
+  main: "dist/index.js"

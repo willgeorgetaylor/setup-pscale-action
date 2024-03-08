@@ -20,22 +20,9 @@ jobs:
       - uses: actions/checkout@v3
       - uses: ./
         with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           version: v0.146.0
       - name: Test pscale
         run: |
           pscale help
           pscale --version
-  # test-mac: 
-  #   runs-on: macos-latest
-  #   steps:
-  #     - uses: actions/checkout@v3
-  #     - uses: ./
-  #     - name: Test pscale
-  #       run: pscale help
-  # test-windows: 
-  #   runs-on: windows-latest
-  #   steps:
-  #     - uses: actions/checkout@v3
-  #     - uses: ./
-  #     - name: Test pscale
-  #       run: pscale help
