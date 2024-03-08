@@ -48,10 +48,14 @@ const axios_1 = __importDefault(__nccwpck_require__(8757));
 const linuxPackageUrl = 'https://github.com/planetscale/cli/releases/download/{{VERSION}}/pscale_{{VERSION2}}_linux_amd64.tar.gz';
 const darwinPackageUrl = 'https://github.com/planetscale/cli/releases/download/{{VERSION}}/pscale_{{VERSION2}}_macOS_amd64.tar.gz';
 const windowsPackageUrl = 'https://github.com/planetscale/cli/releases/download/{{VERSION}}/pscale_{{VERSION2}}_windows_amd64.zip';
-function getLatestReleaseVersion() {
+function getLatestReleaseVersion(authHeader) {
     return __awaiter(this, void 0, void 0, function* () {
-        const apiUrl = `https://api.github.com/repos/planetscale/cli/releases/latest`;
-        const response = yield axios_1.default.get(apiUrl);
+        const apiUrl = "https://api.github.com/repos/planetscale/cli/releases/latest";
+        const response = yield axios_1.default.get(apiUrl, {
+            headers: {
+                Authorization: authHeader
+            }
+        });
         return response.data.tag_name;
     });
 }
@@ -65,6 +69,8 @@ function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const version = core.getInput('version') || 'latest';
+            const githubToken = core.getInput('github-token');
+            const authHeader = `Bearer ${githubToken}`;
             validateVersion(version);
             core.debug(`requested version: ${version}`);
             let packageUrl = '';
@@ -79,7 +85,7 @@ function run() {
             }
             let latestVersion = '';
             if (version === 'latest') {
-                latestVersion = yield getLatestReleaseVersion();
+                latestVersion = yield getLatestReleaseVersion(authHeader);
                 core.debug(`latest version: ${version}`);
                 packageUrl = packageUrl
                     .replace(/{{VERSION}}/g, latestVersion)
@@ -91,7 +97,7 @@ function run() {
                     .replace(/{{VERSION2}}/g, version.replace(/^v/, ''));
             }
             core.debug(`package url: ${packageUrl}`);
-            const downloadedPackagePath = yield tc.downloadTool(packageUrl);
+            const downloadedPackagePath = yield tc.downloadTool(packageUrl, undefined, authHeader);
             const extractedFolder = yield tc.extractTar(downloadedPackagePath, 'tools/pscale');
             const packagePath = yield tc.cacheDir(extractedFolder, 'pscale', version === 'latest' ? latestVersion : version);
             core.addPath(packagePath);
