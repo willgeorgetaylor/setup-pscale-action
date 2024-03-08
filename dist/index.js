@@ -50,7 +50,7 @@ const darwinPackageUrl = 'https://github.com/planetscale/cli/releases/download/{
 const windowsPackageUrl = 'https://github.com/planetscale/cli/releases/download/{{VERSION}}/pscale_{{VERSION2}}_windows_amd64.zip';
 function getLatestReleaseVersion(authHeader) {
     return __awaiter(this, void 0, void 0, function* () {
-        const apiUrl = "https://api.github.com/repos/planetscale/cli/releases/latest";
+        const apiUrl = 'https://api.github.com/repos/planetscale/cli/releases/latest';
         const response = yield axios_1.default.get(apiUrl, {
             headers: {
                 Authorization: authHeader
